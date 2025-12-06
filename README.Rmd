@@ -1,0 +1,40 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# sharedgovernance
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+In an academic institution, many people participate in decision-making: the governing board, administrators, faculty, staff, students, and others. See [AAUP's FAQ](https://www.aaup.org/issues-higher-education/shared-governance/faqs-shared-governance) for more information. Good decisions come from informed people, and yet sometimes information is not available to everyone involved or is heavily curated before release. This package aggregates information from the federal IPEDS databases, College Scorecard, and other sources, generally as organized by the [collegetables.info](https://collegetables.info) site (which I also run), and organizes it in ways that lets community members all have free access to it. A common use case will be when there are discussions on the need to close departments. Faculty arguments often focus on qualitative factors, which can be powerful ("what does it mean for how much we value STEM if one cannot get a PhD in math anywhere in the state?") but having quantitative arguments can also help. Alternatively, a broader look at the data could argue that some closures do make sense.
+
+Note I am doing this as a hobby on my own time -- nothing here reflects the views or work for any past, current, or future employer, nor of any organization. I'm just trying to save colleagues work when a new question arises.
+
+Some caveats: this uses federal data and thus reflects the federal government's views on demographic categories. The data are mostly analyzed with R scripts at <https://github.com/bomeara/collegetables_source> with some minor tweaking in this package -- I've tried to be careful with all the coding, but there could be errors, especially comparing across years. For much of the original data, go to <https://nces.ed.gov/ipeds/> and <https://collegescorecard.ed.gov/data/>. For comparisons to a focal school, I use the schools that focal school chooses as comparisons and the schools NCES uses as comparisons. **If you see any issues, please add them to <https://github.com/bomeara/sharedgovernance/issues> or, even better, fix them and use a pull request.** 
+
+## Installation
+
+You can install the development version of sharedgovernance from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("bomeara/sharedgovernance")
+```
+
+Note the package will take several seconds, up to a minute or two, to load (i.e, when you call `library(sharedgovernance)`: it's loading in about 100 MB of compressed data
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:

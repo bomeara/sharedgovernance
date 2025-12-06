@@ -1,0 +1,21 @@
+Package: sharedgovernance
+Type: Package
+Title: Package for helping faculty and other stakeholders have data to participate in decisions in higher education
+Version: 1.0
+Date: 2025-12-06
+Authors@R:
+    c(person(given = "Brian",
+           family = "O'Meara",
+           role = c("aut", "cre"),
+           email = "omeara.brian@gmail.com",
+           comment = c(ORCID = "0000-0002-0337-5997")))
+Description: In an academic institution, many people participate in decision-making: the governing board, administrators, faculty, staff, students, and others. See https://www.aaup.org/issues-higher-education/shared-governance/faqs-shared-governance for more information. Good decisions come from informed people, and yet sometimes information is not available to everyone involved. This package aggregates information from the federal IPEDS databases, College Scorecard, and other sources, generally as organized by the collegetables.info site, and organizes it in ways that lets community members all have free access to it. A common use case will be when there are discussions on the need to close departments. These often focus on number of majors graduating with bachelors' degrees, but there is actually a wealth of data one can bring to bear.
+LazyData: true 
+License: GPL (>= 3)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 3.5)
+RoxygenNote: 7.3.3
+Encoding: UTF-8
