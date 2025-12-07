@@ -3,7 +3,7 @@
 \docType{data}
 \name{college_chosen_comparison_table}
 \alias{college_chosen_comparison_table}
-\title{College chosen comparison table}
+\title{Dataset: college chosen comparison table}
 \format{
 A data.frame
 }

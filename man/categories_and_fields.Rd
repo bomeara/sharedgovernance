@@ -3,7 +3,7 @@
 \docType{data}
 \name{categories_and_fields}
 \alias{categories_and_fields}
-\title{Categories and fields}
+\title{Dataset: summary caategories and fields}
 \format{
 A data.frame
 }

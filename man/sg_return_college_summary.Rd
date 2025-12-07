@@ -27,8 +27,8 @@ This function returns a smaller set of summary data from the comparison_table fo
 The comparison_table data structure has many, many fields (1038 columns in total). This function pulls out a smaller set of data useful for making arguments about shared governance: budgets, enrollments, faculty counts, and so on. By default it will do it for the focal college and its comparisons.
 }
 \examples{
-id <- sg_find_college("University of Massachusetts, Amherst")
-summary_data <- sg_return_college_summary(id, categories=c("Basic", "Institutional_Finances", "Enrollment"), focal_only=TRUE)
+id <- sg_find_college("University of Massachusetts, Amherst", verbose=FALSE)
+summary_data <- sg_return_college_summary(id, categories=c("Basic", "Institution_Finances", "Enrollment"), focal_only=TRUE)
 print(summary_data[, c("Year", "Undergrad full time", "Revenue minus expenses")])
 
 }

@@ -3,7 +3,7 @@
 \docType{data}
 \name{comparison_table}
 \alias{comparison_table}
-\title{Comparison table
+\title{Dataset: comparison table
 This uses many tables from IPEDS to provide information about colleges over the last ten years.}
 \format{
 A data.frame. Data for each college for one year is one row.
@@ -12,7 +12,7 @@ A data.frame. Data for each college for one year is one row.
 comparison_table
 }
 \description{
-Comparison table
+Dataset: comparison table
 This uses many tables from IPEDS to provide information about colleges over the last ten years.
 }
 \keyword{datasets}

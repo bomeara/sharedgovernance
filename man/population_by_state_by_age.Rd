@@ -3,7 +3,7 @@
 \docType{data}
 \name{population_by_state_by_age}
 \alias{population_by_state_by_age}
-\title{Populaton by state by age}
+\title{Dataset: population by state by age}
 \format{
 It is a tibble with columns for State_FIPS, State, Age, and Population
 }

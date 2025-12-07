@@ -3,7 +3,7 @@
 \docType{data}
 \name{scorecard_field_organized}
 \alias{scorecard_field_organized}
-\title{Scorecard field organized}
+\title{Dataset: college scorecard data}
 \format{
 A data.frame
 }

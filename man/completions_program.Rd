@@ -3,9 +3,9 @@
 \docType{data}
 \name{completions_program}
 \alias{completions_program}
-\title{Completions
-This uses information originally from tables C2024_A, C2023_A, etc. from IPEDS (i.e, from https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?gotoReportId=7&fromIpeds=true&sid=7585cccc-2e95-4be1-8f9e-29d50fc8796f&rtid=7)
-It was processed by code in college_tables to organize it and convert the CIPS codes to names of fields.}
+\title{Dataset: completions
+This uses information originally from tables C2024_A, C2023_A, etc. from IPEDS.
+It was processed by code in collegetables.info to organize it and convert the CIPS codes to names of fields.}
 \format{
 A data.frame with many rows and a few columns. UNITID is the institution ID used to link data.
 }
@@ -13,8 +13,8 @@ A data.frame with many rows and a few columns. UNITID is the institution ID used
 completions_program
 }
 \description{
-Completions
-This uses information originally from tables C2024_A, C2023_A, etc. from IPEDS (i.e, from https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?gotoReportId=7&fromIpeds=true&sid=7585cccc-2e95-4be1-8f9e-29d50fc8796f&rtid=7)
-It was processed by code in college_tables to organize it and convert the CIPS codes to names of fields.
+Dataset: completions
+This uses information originally from tables C2024_A, C2023_A, etc. from IPEDS.
+It was processed by code in collegetables.info to organize it and convert the CIPS codes to names of fields.
 }
 \keyword{datasets}
