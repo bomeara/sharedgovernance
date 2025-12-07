@@ -33,23 +33,43 @@ You can install the development version of sharedgovernance from [GitHub](https:
 pak::pak("bomeara/sharedgovernance")
 ```
 
-Note the package will take several seconds, up to a minute or two, to load (i.e, when you call `library(sharedgovernance)`: it's loading in about 100 MB of compressed data
+Note the package will take several seconds, up to a minute or two, to load (i.e, when you call `library(sharedgovernance)`: it's loading in about 100 MB of compressed data. Some of the functions may also take some time to run.
 
 ## Example
 
-Imagine we wanted to look into U. of Nebraska, Lincoln. 
+Imagine we wanted to look into U. of Nebraska, Lincoln. First we have to find its ID number in the federal data. We find names that are closest to it (in this case, the punctuation used is slightly different, but it still finds it). Make sure to use the full name: "University of Nebraska, Lincoln" rather than ("U Nebraska Lincoln" or "UNL"). By default it prints out the top ten matches.
 
 ```{r}
 library(sharedgovernance)
 id <- sg_find_college("University of Nebraska, Lincoln")
 ```
 
-We can see the top match and other matches by default
+We can look at average salaries of graduates for the focal institution (listed first by default) and its comparison institutions.
 
 ```{r}
 grad_salaries <- sg_compare_field_salaries(id)
 print(head(grad_salaries))
+```
+
+We can also look at number of degrees awarded over time.
+
+```{r}
 completions <- sg_return_graduates(id)
 print(head(dplyr::select(completions, Institution, Classification, Degree, `IPEDS Year`, `Grand total`),40))
 ```
 
+These are just data.frames. We can export them to CSV files (i.e., `write.csv(completions, file="completions.csv")`) if analyzing them in Excel, Google Sheets, or another program is preferred. But we can also analyze them in R. For example, we can plot the number of Bachelors' degrees in 'Biology/Biological Sciences, General' over time for the focal institution and its comparisons.
+
+```{r}
+library(ggplot2)
+library(dplyr)
+bio_degrees <- completions |> dplyr::filter(Classification=="Biology/Biological Sciences, General", Degree=="Bachelors")
+g <- ggplot(bio_degrees, aes(x=`IPEDS Year`, y=`Grand total`, color=Institution)) +
+  geom_line() +
+  geom_point() +
+  labs(title="Biology/Biological Sciences, General Bachelors' Degrees Awarded Over Time",
+	   y="Number of Degrees Awarded",
+	   x="IPEDS Year")
+	   print(g)
+```
+	   

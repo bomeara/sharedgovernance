@@ -145,6 +145,7 @@ sg_compare_field_salaries <- function(institution_id) {
 		Earnings.5.year.men,
 		Earnings.5.year.women
 	)
+	
 
 	one_year <- c(
 		!is.na(
@@ -183,7 +184,7 @@ sg_compare_field_salaries <- function(institution_id) {
 }
 
 #' Gets the number of graduates over time for the focal institution and comparisons
-#' 
+#'
 #' @param institution_id The UNITID for the institution
 #' @return A data.frame of graduates per degree and field per college per year.
 #' @export
@@ -191,28 +192,43 @@ sg_compare_field_salaries <- function(institution_id) {
 #' This provides aggregated information from IPEDS. It includes information for people with that as a first major and those as a second major (the third column)
 sg_return_graduates <- function(institution_id) {
 	any_comparison <- sg_find_comparisons(institution_id)
-	
+
 	completions_program_filtered <- completions_program[
 		completions_program$UNITID %in% c(institution_id, any_comparison),
-	] |> dplyr::arrange(Classification, Degree, `IPEDS Year`, UNITID)
-	
+	] |>
+		dplyr::arrange(Classification, Degree, `IPEDS Year`, UNITID)
+
 	completions_program_filtered$Institution <- NA
 	for (i in sequence(nrow(completions_program_filtered))) {
 		matching_row <- which(
 			comparison_table$`UNITID Unique identification number of the institution` ==
-				completions_program$UNITID[i]
+				completions_program_filtered$UNITID[i]
 		)
-		if(length(matching_row) == 0) {
+		if (length(matching_row) == 0) {
 			next
 		}
-		completions_program_filtered$Institution[i] <- comparison_table$`Institution entity name`[matching_row[1]]
+		completions_program_filtered$Institution[
+			i
+		] <- comparison_table$`Institution entity name`[matching_row[1]]
 	}
-	
-	focal_completions <- subset(completions_program_filtered, UNITID==institution_id)
+
+	to_make_numeric <- which(grepl(
+		" total| men | women",
+		colnames(completions_program_filtered)
+	))
+	for (col_index in to_make_numeric) {
+		completions_program_filtered[, col_index] <-
+			as.numeric(completions_program_filtered[, col_index])
+	}
+
+	focal_completions <- subset(
+		completions_program_filtered,
+		UNITID == institution_id
+	)
 	nonfocal_completions <- subset(
 		completions_program_filtered,
 		UNITID != institution_id
 	)
-	
+
 	return(rbind(focal_completions, nonfocal_completions))
 }

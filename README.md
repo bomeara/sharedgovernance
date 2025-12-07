@@ -55,11 +55,17 @@ pak::pak("bomeara/sharedgovernance")
 
 Note the package will take several seconds, up to a minute or two, to
 load (i.e, when you call `library(sharedgovernance)`: it’s loading in
-about 100 MB of compressed data
+about 100 MB of compressed data. Some of the functions may also take
+some time to run.
 
 ## Example
 
-Imagine we wanted to look into U. of Nebraska, Lincoln.
+Imagine we wanted to look into U. of Nebraska, Lincoln. First we have to
+find its ID number in the federal data. We find names that are closest
+to it (in this case, the punctuation used is slightly different, but it
+still finds it). Make sure to use the full name: “University of
+Nebraska, Lincoln” rather than (“U Nebraska Lincoln” or “UNL”). By
+default it prints out the top ten matches.
 
 ``` r
 library(sharedgovernance)
@@ -77,7 +83,8 @@ id <- sg_find_college("University of Nebraska, Lincoln")
 #> 232681         University of Mary Washington        12
 ```
 
-We can see the top match and other matches by default
+We can look at average salaries of graduates for the focal institution
+(listed first by default) and its comparison institutions.
 
 ``` r
 grad_salaries <- sg_compare_field_salaries(id)
@@ -110,49 +117,54 @@ print(head(grad_salaries))
 #> 101734                    NA                  NA                    NA
 #> 101737                    NA                  NA                    NA
 #> 101740                    NA                  NA                    NA
+```
+
+We can also look at number of degrees awarded over time.
+
+``` r
 completions <- sg_return_graduates(id)
 print(head(dplyr::select(completions, Institution, Classification, Degree, `IPEDS Year`, `Grand total`),40))
-#>                              Institution    Classification    Degree IPEDS Year
-#> 86   University of Alabama at Birmingham        Accounting Bachelors       2014
-#> 87   University of Alabama at Birmingham        Accounting Bachelors       2014
-#> 146  University of Alabama at Birmingham        Accounting Bachelors       2015
-#> 147  University of Alabama at Birmingham        Accounting Bachelors       2015
-#> 207  University of Alabama at Birmingham        Accounting Bachelors       2016
-#> 208  University of Alabama at Birmingham        Accounting Bachelors       2016
-#> 269  University of Alabama at Birmingham        Accounting Bachelors       2017
-#> 270  University of Alabama at Birmingham        Accounting Bachelors       2017
-#> 330                   Amridge University        Accounting Bachelors       2018
-#> 331                   Amridge University        Accounting Bachelors       2018
-#> 390  University of Alabama in Huntsville        Accounting Bachelors       2019
-#> 391  University of Alabama in Huntsville        Accounting Bachelors       2019
-#> 454  University of Alabama in Huntsville        Accounting Bachelors       2020
-#> 455  University of Alabama in Huntsville        Accounting Bachelors       2020
-#> 518             Alabama State University        Accounting Bachelors       2021
-#> 519             Alabama State University        Accounting Bachelors       2021
-#> 581            The University of Alabama        Accounting Bachelors       2022
-#> 582            The University of Alabama        Accounting Bachelors       2022
-#> 641            The University of Alabama        Accounting Bachelors       2023
-#> 642            The University of Alabama        Accounting Bachelors       2023
-#> 702            The University of Alabama        Accounting Bachelors       2024
-#> 934            The University of Alabama        Accounting   Masters       2014
-#> 977              Athens State University        Accounting   Masters       2015
-#> 1022             Athens State University        Accounting   Masters       2016
-#> 1067     Auburn University at Montgomery        Accounting   Masters       2017
-#> 1112     Auburn University at Montgomery        Accounting   Masters       2018
-#> 1156                   Auburn University        Accounting   Masters       2019
-#> 1199                   Auburn University        Accounting   Masters       2020
-#> 1242                   Auburn University        Accounting   Masters       2021
-#> 1286                   Auburn University        Accounting   Masters       2022
-#> 1328                   Auburn University        Accounting   Masters       2023
-#> 1368                   Auburn University        Accounting   Masters       2024
-#> 1556  Enterprise State Community College            Acting Bachelors       2022
-#> 1563   Coastal Alabama Community College            Acting Bachelors       2023
-#> 1570   Coastal Alabama Community College            Acting Bachelors       2024
-#> 1602   Coastal Alabama Community College Actuarial Science Bachelors       2014
-#> 1603   Coastal Alabama Community College Actuarial Science Bachelors       2014
-#> 1617                 Faulkner University Actuarial Science Bachelors       2015
-#> 1618                 Faulkner University Actuarial Science Bachelors       2015
-#> 1634                 Faulkner University Actuarial Science Bachelors       2016
+#>                         Institution    Classification    Degree IPEDS Year
+#> 86   University of Nebraska-Lincoln        Accounting Bachelors       2014
+#> 87   University of Nebraska-Lincoln        Accounting Bachelors       2014
+#> 146  University of Nebraska-Lincoln        Accounting Bachelors       2015
+#> 147  University of Nebraska-Lincoln        Accounting Bachelors       2015
+#> 207  University of Nebraska-Lincoln        Accounting Bachelors       2016
+#> 208  University of Nebraska-Lincoln        Accounting Bachelors       2016
+#> 269  University of Nebraska-Lincoln        Accounting Bachelors       2017
+#> 270  University of Nebraska-Lincoln        Accounting Bachelors       2017
+#> 330  University of Nebraska-Lincoln        Accounting Bachelors       2018
+#> 331  University of Nebraska-Lincoln        Accounting Bachelors       2018
+#> 390  University of Nebraska-Lincoln        Accounting Bachelors       2019
+#> 391  University of Nebraska-Lincoln        Accounting Bachelors       2019
+#> 454  University of Nebraska-Lincoln        Accounting Bachelors       2020
+#> 455  University of Nebraska-Lincoln        Accounting Bachelors       2020
+#> 518  University of Nebraska-Lincoln        Accounting Bachelors       2021
+#> 519  University of Nebraska-Lincoln        Accounting Bachelors       2021
+#> 581  University of Nebraska-Lincoln        Accounting Bachelors       2022
+#> 582  University of Nebraska-Lincoln        Accounting Bachelors       2022
+#> 641  University of Nebraska-Lincoln        Accounting Bachelors       2023
+#> 642  University of Nebraska-Lincoln        Accounting Bachelors       2023
+#> 702  University of Nebraska-Lincoln        Accounting Bachelors       2024
+#> 934  University of Nebraska-Lincoln        Accounting   Masters       2014
+#> 977  University of Nebraska-Lincoln        Accounting   Masters       2015
+#> 1022 University of Nebraska-Lincoln        Accounting   Masters       2016
+#> 1067 University of Nebraska-Lincoln        Accounting   Masters       2017
+#> 1112 University of Nebraska-Lincoln        Accounting   Masters       2018
+#> 1156 University of Nebraska-Lincoln        Accounting   Masters       2019
+#> 1199 University of Nebraska-Lincoln        Accounting   Masters       2020
+#> 1242 University of Nebraska-Lincoln        Accounting   Masters       2021
+#> 1286 University of Nebraska-Lincoln        Accounting   Masters       2022
+#> 1328 University of Nebraska-Lincoln        Accounting   Masters       2023
+#> 1368 University of Nebraska-Lincoln        Accounting   Masters       2024
+#> 1556 University of Nebraska-Lincoln            Acting Bachelors       2022
+#> 1563 University of Nebraska-Lincoln            Acting Bachelors       2023
+#> 1570 University of Nebraska-Lincoln            Acting Bachelors       2024
+#> 1602 University of Nebraska-Lincoln Actuarial Science Bachelors       2014
+#> 1603 University of Nebraska-Lincoln Actuarial Science Bachelors       2014
+#> 1617 University of Nebraska-Lincoln Actuarial Science Bachelors       2015
+#> 1618 University of Nebraska-Lincoln Actuarial Science Bachelors       2015
+#> 1634 University of Nebraska-Lincoln Actuarial Science Bachelors       2016
 #>      Grand total
 #> 86           111
 #> 87            10
@@ -195,3 +207,33 @@ print(head(dplyr::select(completions, Institution, Classification, Degree, `IPED
 #> 1618           0
 #> 1634          72
 ```
+
+These are just data.frames. We can export them to CSV files (i.e.,
+`write.csv(completions, file="completions.csv")`) if analyzing them in
+Excel, Google Sheets, or another program is preferred. But we can also
+analyze them in R. For example, we can plot the number of Bachelors’
+degrees in ‘Biology/Biological Sciences, General’ over time for the
+focal institution and its comparisons.
+
+``` r
+library(ggplot2)
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+bio_degrees <- completions |> dplyr::filter(Classification=="Biology/Biological Sciences, General", Degree=="Bachelors")
+g <- ggplot(bio_degrees, aes(x=`IPEDS Year`, y=`Grand total`, color=Institution)) +
+  geom_line() +
+  geom_point() +
+  labs(title="Biology/Biological Sciences, General Bachelors' Degrees Awarded Over Time",
+       y="Number of Degrees Awarded",
+       x="IPEDS Year")
+       print(g)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
