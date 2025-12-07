@@ -198,7 +198,14 @@ sg_return_graduates <- function(institution_id) {
 	
 	completions_program_filtered$Institution <- NA
 	for (i in sequence(nrow(completions_program_filtered))) {
-		completions_program_filtered$Institution[i] <- comparison_table$`Institution entity name`[which(comparison_table$`UNITID Unique identification number of the institution`==completions_program$UNITID[i])]
+		matching_row <- which(
+			comparison_table$`UNITID Unique identification number of the institution` ==
+				completions_program$UNITID[i]
+		)
+		if(length(matching_row) == 0) {
+			next
+		}
+		completions_program_filtered$Institution[i] <- comparison_table$`Institution entity name`[matching_row[1]]
 	}
 	
 	focal_completions <- subset(completions_program_filtered, UNITID==institution_id)
