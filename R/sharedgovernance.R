@@ -37,6 +37,13 @@
 #' A data.frame
 "scorecard_field_organized"
 
+#' Categories and fields
+#' 
+#' This is categories for the fields in the comparison table
+#' @format
+#' A data.frame
+"categories_and_fields"
+
 #' Find the college id
 #' 
 #' @param college_name The full college name to match.
@@ -232,6 +239,12 @@ sg_return_graduates <- function(institution_id) {
 		TRUE,
 		FALSE
 	)
+	
+	colnames(completions_program_filtered) <- gsub(
+		"IPEDS Year",
+		"Year",
+		colnames(completions_program_filtered)
+	)
 
 	focal_completions <- subset(
 		completions_program_filtered,
@@ -243,4 +256,67 @@ sg_return_graduates <- function(institution_id) {
 	)
 
 	return(rbind(focal_completions, nonfocal_completions))
+}
+
+#' Open CollegeTables
+#' 
+#' This will open the CollegeTables website in your default web browser for a given institution.
+#' @param institution_id The UNITID for the institution
+#' @export
+#' @description
+#' This opens the CollegeTables website for the given institution ID. CollegeTables is a website I made to aggregate info for colleges from various sources and present it in a user-friendly way without paywalls. It was featured in the New York Times here: <https://www.nytimes.com/2023/04/15/your-money/college-cost-data-tools.html>.
+sg_open_collegetables <- function(institution_id) {
+	url <- paste0(
+		"https://collegetables.info/", institution_id, ".html"
+	)
+	utils::browseURL(url)
+}
+
+#' College summary data
+#' 
+#' The comparison_table data structure has many, many fields (1038 columns in total). This function pulls out a smaller set of data useful for making arguments about shared governance: budgets, enrollments, faculty counts, and so on. By default it will do it for the focal college and its comparisons.
+#' @param institution_id The UNITID for the institution
+#' @param categories The vector of categories to include. See table(categories_and_fields$Category) for options with number of fields within. Default is "Basic".
+#' @param focal_only If TRUE, only returns data for the focal institution. Default is FALSE.
+#' @return A data.frame with summary data for the focal institution and its comparisons
+#' @export
+#' @description
+#' This function returns a smaller set of summary data from the comparison_table for the focal institution and its comparisons.
+#' @examples
+#' id <- sg_find_college("University of Massachusetts, Amherst")
+#' summary_data <- sg_return_college_summary(id, categories=c("Basic", "Institutional_Finances", "Enrollment"), focal_only=TRUE)
+#' print(summary_data[, c("Year", "Undergrad full time", "Revenue minus expenses")])
+#' 
+sg_return_college_summary <- function(institution_id, categories=c("Basic"), focal_only=FALSE) {
+	any_comparison <- sg_find_comparisons(institution_id)
+	summary_table <- comparison_table[
+		comparison_table$`UNITID Unique identification number of the institution` %in% c(institution_id, any_comparison),
+	]
+	summary_table$focal <- ifelse(
+		summary_table$`UNITID Unique identification number of the institution` == institution_id,
+		TRUE,
+		FALSE
+	)
+	
+		
+	colnames(summary_table) <- gsub(
+		"IPEDS Year",
+		"Year",
+		colnames(summary_table)
+	)
+	fields_to_include <- c()
+	for (category in categories) {
+		fields_in_category <- categories_and_fields$Field[
+			categories_and_fields$Category == category
+		]
+		fields_to_include <- c(fields_to_include, fields_in_category)	
+	}
+	summary_table <- summary_table[, c(fields_to_include)]
+	if(focal_only) {
+		summary_table <- subset(
+			summary_table,
+			summary_table$focal == TRUE
+		)
+	}
+	return(summary_table)
 }

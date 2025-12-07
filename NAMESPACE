@@ -3,4 +3,6 @@
 export(sg_compare_field_salaries)
 export(sg_find_college)
 export(sg_find_comparisons)
+export(sg_open_collegetables)
+export(sg_return_college_summary)
 export(sg_return_graduates)

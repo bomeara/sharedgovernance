@@ -53,10 +53,9 @@ You can install the development version of sharedgovernance from
 pak::pak("bomeara/sharedgovernance")
 ```
 
-Note the package will take several seconds, up to a minute or two, to
-load (i.e, when you call `library(sharedgovernance)`: it’s loading in
-about 100 MB of compressed data. Some of the functions may also take
-some time to run.
+Note that some of the functions may take some time to run – it can be
+doing operations across hundreds of thousands of rows (all majors by all
+degrees by all years by all institutions makes for a lot of data).
 
 ## Example
 
@@ -123,48 +122,48 @@ We can also look at number of degrees awarded over time.
 
 ``` r
 completions <- sg_return_graduates(id)
-print(head(dplyr::select(completions, Institution, Classification, Degree, `IPEDS Year`, `Grand total`),40))
-#>                         Institution    Classification    Degree IPEDS Year
-#> 86   University of Nebraska-Lincoln        Accounting Bachelors       2014
-#> 87   University of Nebraska-Lincoln        Accounting Bachelors       2014
-#> 146  University of Nebraska-Lincoln        Accounting Bachelors       2015
-#> 147  University of Nebraska-Lincoln        Accounting Bachelors       2015
-#> 207  University of Nebraska-Lincoln        Accounting Bachelors       2016
-#> 208  University of Nebraska-Lincoln        Accounting Bachelors       2016
-#> 269  University of Nebraska-Lincoln        Accounting Bachelors       2017
-#> 270  University of Nebraska-Lincoln        Accounting Bachelors       2017
-#> 330  University of Nebraska-Lincoln        Accounting Bachelors       2018
-#> 331  University of Nebraska-Lincoln        Accounting Bachelors       2018
-#> 390  University of Nebraska-Lincoln        Accounting Bachelors       2019
-#> 391  University of Nebraska-Lincoln        Accounting Bachelors       2019
-#> 454  University of Nebraska-Lincoln        Accounting Bachelors       2020
-#> 455  University of Nebraska-Lincoln        Accounting Bachelors       2020
-#> 518  University of Nebraska-Lincoln        Accounting Bachelors       2021
-#> 519  University of Nebraska-Lincoln        Accounting Bachelors       2021
-#> 581  University of Nebraska-Lincoln        Accounting Bachelors       2022
-#> 582  University of Nebraska-Lincoln        Accounting Bachelors       2022
-#> 641  University of Nebraska-Lincoln        Accounting Bachelors       2023
-#> 642  University of Nebraska-Lincoln        Accounting Bachelors       2023
-#> 702  University of Nebraska-Lincoln        Accounting Bachelors       2024
-#> 934  University of Nebraska-Lincoln        Accounting   Masters       2014
-#> 977  University of Nebraska-Lincoln        Accounting   Masters       2015
-#> 1022 University of Nebraska-Lincoln        Accounting   Masters       2016
-#> 1067 University of Nebraska-Lincoln        Accounting   Masters       2017
-#> 1112 University of Nebraska-Lincoln        Accounting   Masters       2018
-#> 1156 University of Nebraska-Lincoln        Accounting   Masters       2019
-#> 1199 University of Nebraska-Lincoln        Accounting   Masters       2020
-#> 1242 University of Nebraska-Lincoln        Accounting   Masters       2021
-#> 1286 University of Nebraska-Lincoln        Accounting   Masters       2022
-#> 1328 University of Nebraska-Lincoln        Accounting   Masters       2023
-#> 1368 University of Nebraska-Lincoln        Accounting   Masters       2024
-#> 1556 University of Nebraska-Lincoln            Acting Bachelors       2022
-#> 1563 University of Nebraska-Lincoln            Acting Bachelors       2023
-#> 1570 University of Nebraska-Lincoln            Acting Bachelors       2024
-#> 1602 University of Nebraska-Lincoln Actuarial Science Bachelors       2014
-#> 1603 University of Nebraska-Lincoln Actuarial Science Bachelors       2014
-#> 1617 University of Nebraska-Lincoln Actuarial Science Bachelors       2015
-#> 1618 University of Nebraska-Lincoln Actuarial Science Bachelors       2015
-#> 1634 University of Nebraska-Lincoln Actuarial Science Bachelors       2016
+print(head(dplyr::select(completions, Institution, Classification, Degree, `Year`, `Grand total`),40))
+#>                         Institution    Classification    Degree Year
+#> 86   University of Nebraska-Lincoln        Accounting Bachelors 2014
+#> 87   University of Nebraska-Lincoln        Accounting Bachelors 2014
+#> 146  University of Nebraska-Lincoln        Accounting Bachelors 2015
+#> 147  University of Nebraska-Lincoln        Accounting Bachelors 2015
+#> 207  University of Nebraska-Lincoln        Accounting Bachelors 2016
+#> 208  University of Nebraska-Lincoln        Accounting Bachelors 2016
+#> 269  University of Nebraska-Lincoln        Accounting Bachelors 2017
+#> 270  University of Nebraska-Lincoln        Accounting Bachelors 2017
+#> 330  University of Nebraska-Lincoln        Accounting Bachelors 2018
+#> 331  University of Nebraska-Lincoln        Accounting Bachelors 2018
+#> 390  University of Nebraska-Lincoln        Accounting Bachelors 2019
+#> 391  University of Nebraska-Lincoln        Accounting Bachelors 2019
+#> 454  University of Nebraska-Lincoln        Accounting Bachelors 2020
+#> 455  University of Nebraska-Lincoln        Accounting Bachelors 2020
+#> 518  University of Nebraska-Lincoln        Accounting Bachelors 2021
+#> 519  University of Nebraska-Lincoln        Accounting Bachelors 2021
+#> 581  University of Nebraska-Lincoln        Accounting Bachelors 2022
+#> 582  University of Nebraska-Lincoln        Accounting Bachelors 2022
+#> 641  University of Nebraska-Lincoln        Accounting Bachelors 2023
+#> 642  University of Nebraska-Lincoln        Accounting Bachelors 2023
+#> 702  University of Nebraska-Lincoln        Accounting Bachelors 2024
+#> 934  University of Nebraska-Lincoln        Accounting   Masters 2014
+#> 977  University of Nebraska-Lincoln        Accounting   Masters 2015
+#> 1022 University of Nebraska-Lincoln        Accounting   Masters 2016
+#> 1067 University of Nebraska-Lincoln        Accounting   Masters 2017
+#> 1112 University of Nebraska-Lincoln        Accounting   Masters 2018
+#> 1156 University of Nebraska-Lincoln        Accounting   Masters 2019
+#> 1199 University of Nebraska-Lincoln        Accounting   Masters 2020
+#> 1242 University of Nebraska-Lincoln        Accounting   Masters 2021
+#> 1286 University of Nebraska-Lincoln        Accounting   Masters 2022
+#> 1328 University of Nebraska-Lincoln        Accounting   Masters 2023
+#> 1368 University of Nebraska-Lincoln        Accounting   Masters 2024
+#> 1556 University of Nebraska-Lincoln            Acting Bachelors 2022
+#> 1563 University of Nebraska-Lincoln            Acting Bachelors 2023
+#> 1570 University of Nebraska-Lincoln            Acting Bachelors 2024
+#> 1602 University of Nebraska-Lincoln Actuarial Science Bachelors 2014
+#> 1603 University of Nebraska-Lincoln Actuarial Science Bachelors 2014
+#> 1617 University of Nebraska-Lincoln Actuarial Science Bachelors 2015
+#> 1618 University of Nebraska-Lincoln Actuarial Science Bachelors 2015
+#> 1634 University of Nebraska-Lincoln Actuarial Science Bachelors 2016
 #>      Grand total
 #> 86           111
 #> 87            10
@@ -227,7 +226,7 @@ library(dplyr)
 #> 
 #>     intersect, setdiff, setequal, union
 bio_degrees <- completions |> dplyr::filter(Classification=="Biology/Biological Sciences, General", Degree=="Bachelors", focal==TRUE)
-g <- ggplot(bio_degrees, aes(x=`IPEDS Year`, y=`Grand total`, color=`First or Second Major`)) +
+g <- ggplot(bio_degrees, aes(x=`Year`, y=`Grand total`, color=`First or Second Major`)) +
   geom_line() +
   geom_point() +
   labs(title="Biology/Biological Sciences, General Bachelors' Degrees Awarded Over Time",
