@@ -37,4 +37,19 @@ Note the package will take several seconds, up to a minute or two, to load (i.e,
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Imagine we wanted to look into U. of Nebraska, Lincoln. 
+
+```{r}
+library(sharedgovernance)
+id <- sg_find_college("University of Nebraska, Lincoln")
+```
+
+We can see the top match and other matches by default
+
+```{r}
+grad_salaries <- sg_compare_field_salaries(id)
+print(head(grad_salaries))
+completions <- sg_return_graduates(id)
+print(head(dplyr::select(completions, Institution, Classification, Degree, `IPEDS Year`, `Grand total`),40))
+```
+
