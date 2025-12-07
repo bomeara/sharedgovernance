@@ -54,9 +54,12 @@ You can install the development version of sharedgovernance from
 pak::pak("bomeara/sharedgovernance")
 ```
 
-Note that some of the functions may take some time to run – it can be
-doing operations across hundreds of thousands of rows (all majors by all
-degrees by all years by all institutions makes for a lot of data).
+This will take an unusually long time to install (10 minutes on my
+computer) – just be patient. Note that some of the functions may take
+some time to run, too – it can be doing operations across hundreds of
+thousands of rows (all majors by all degrees by all years by all
+institutions makes for a lot of data). But the advantage is that all the
+data are local, so you don’t have to wait for web requests each time.
 
 ## Overview of functions
 
