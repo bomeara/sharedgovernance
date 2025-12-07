@@ -226,8 +226,8 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-bio_degrees <- completions |> dplyr::filter(Classification=="Biology/Biological Sciences, General", Degree=="Bachelors")
-g <- ggplot(bio_degrees, aes(x=`IPEDS Year`, y=`Grand total`, color=focal, group=Institution)) +
+bio_degrees <- completions |> dplyr::filter(Classification=="Biology/Biological Sciences, General", Degree=="Bachelors", focal==TRUE)
+g <- ggplot(bio_degrees, aes(x=`IPEDS Year`, y=`Grand total`, color=`First or Second Major`)) +
   geom_line() +
   geom_point() +
   labs(title="Biology/Biological Sciences, General Bachelors' Degrees Awarded Over Time",
