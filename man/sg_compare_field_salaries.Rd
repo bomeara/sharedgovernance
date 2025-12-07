@@ -4,14 +4,16 @@
 \alias{sg_compare_field_salaries}
 \title{Return income for graduates from this and similar institutions}
 \usage{
-sg_compare_field_salaries(institution_id)
+sg_compare_field_salaries(institution_id, focal_only = FALSE)
 }
 \arguments{
 \item{institution_id}{The UNITID for the institution}
+
+\item{focal_only}{If TRUE, only returns data for the focal institution. Default is FALSE.}
 }
 \value{
 A data.frame of incomes, fields, and colleges from the College Scorecard
 }
 \description{
-Return income for graduates from this and similar institutions
+This provides information from the College Scorecard on earnings by field and degree for the focal institution and its comparisons. For fields with not many graduates, data may be missing.
 }

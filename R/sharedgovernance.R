@@ -130,9 +130,12 @@ sg_find_comparisons <- function(institution_id) {
 #' Return income for graduates from this and similar institutions
 #'
 #' @param institution_id The UNITID for the institution
+#' @param focal_only If TRUE, only returns data for the focal institution. Default is FALSE.
+#' @description
+#' This provides information from the College Scorecard on earnings by field and degree for the focal institution and its comparisons. For fields with not many graduates, data may be missing.
 #' @return A data.frame of incomes, fields, and colleges from the College Scorecard
 #' @export
-sg_compare_field_salaries <- function(institution_id) {
+sg_compare_field_salaries <- function(institution_id, focal_only=FALSE) {
 	any_comparison <- sg_find_comparisons(institution_id)
 
 	scorecard_field_organized_comparisons <- scorecard_field_organized[
@@ -192,6 +195,13 @@ sg_compare_field_salaries <- function(institution_id) {
 		TRUE,
 		FALSE
 	)
+	
+	if(focal_only) {
+		final_score <- subset(
+			final_score,
+			final_score$focal == TRUE
+		)
+	}
 
 	return(final_score)
 }
@@ -199,11 +209,12 @@ sg_compare_field_salaries <- function(institution_id) {
 #' Gets the number of graduates over time for the focal institution and comparisons
 #'
 #' @param institution_id The UNITID for the institution
+#' @param focal_only If TRUE, only returns data for the focal institution. Default is FALSE.
 #' @return A data.frame of graduates per degree and field per college per year.
 #' @export
 #' @description
 #' This provides aggregated information from IPEDS. It includes information for people with that as a first major and those as a second major (the third column)
-sg_return_graduates <- function(institution_id) {
+sg_return_graduates <- function(institution_id, focal_only=FALSE) {
 	any_comparison <- sg_find_comparisons(institution_id)
 
 	completions_program_filtered <- completions_program[
@@ -255,7 +266,14 @@ sg_return_graduates <- function(institution_id) {
 		UNITID != institution_id
 	)
 
-	return(rbind(focal_completions, nonfocal_completions))
+	final_completions <- rbind(focal_completions, nonfocal_completions)
+	if(focal_only) {
+		final_completions <- subset(
+			final_completions,
+			final_completions$focal == TRUE
+		)
+	}
+	return(final_completions)
 }
 
 #' Open CollegeTables

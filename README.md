@@ -35,8 +35,9 @@ government’s views on demographic categories. The data are mostly
 analyzed with R scripts at
 <https://github.com/bomeara/collegetables_source> with some minor
 tweaking in this package – I’ve tried to be careful with all the coding,
-but there could be errors, especially comparing across years. For much
-of the original data, go to <https://nces.ed.gov/ipeds/> and
+but there could be errors, especially comparing across years (category
+names can change, for example). For much of the original data, go to
+<https://nces.ed.gov/ipeds/> and
 <https://collegescorecard.ed.gov/data/>. For comparisons to a focal
 school, I use the schools that focal school chooses as comparisons and
 the schools NCES uses as comparisons. **If you see any issues, please
@@ -57,7 +58,30 @@ Note that some of the functions may take some time to run – it can be
 doing operations across hundreds of thousands of rows (all majors by all
 degrees by all years by all institutions makes for a lot of data).
 
-## Example
+## Overview of functions
+
+The main workhorse functions are:
+
+- `sg_find_college(college_name, verbose=TRUE)`: finds the institution
+  ID number for a college given its name (or part of its name). Returns
+  the UNITID number used in federal data.
+- `sg_compare_field_salaries(institution_id, focal_only=FALSE)`: returns
+  a data.frame with average salaries by field and degree for the focal
+  institution and its comparison institutions.
+- `sg_return_graduates(institution_id, focal_only=FALSE)`: returns a
+  data.frame with number of degrees awarded by field, degree, year, and
+  institution for the focal institution and its comparison institutions.
+- `sg_return_college_summary(institution_id, categories=c("Basic"), focal_only=FALSE)`:
+  returns a data.frame with summary data from the comparison table for
+  the focal institution and its comparisons. Categories can be found in
+  the `categories_and_fields` dataset: see
+  `table(categories_and_fields$Category)` for an overview.
+
+You can also open the [collegetables.info](https://collegetables.info)
+site for a given institution with
+`sg_open_collegetables(institution_id)`.
+
+## Examples
 
 Imagine we wanted to look into U. of Nebraska, Lincoln. First we have to
 find its ID number in the federal data. We find names that are closest
@@ -236,3 +260,25 @@ print(g)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+If we want basic info on this college, we can also get a summary table.
+
+``` r
+summary_data <- sg_return_college_summary(id, categories=c("Basic", "Institution_Finances", "Enrollment", "Library"), focal_only=TRUE)
+print(summary_data[, c("Year", "Undergrad full time", "Revenue minus expenses", "Number of physical books")])
+#>       Year Undergrad full time Revenue minus expenses Number of physical books
+#> 1507  2024                <NA>                     NA                     <NA>
+#> 5489  2023               18449              118853325                  1425365
+#> 9529  2022               18175              101907312                  1421525
+#> 13611 2021               18437              137521518                  1757277
+#> 17673 2020               18949              -77948359                  1542633
+#> 21781 2019               19132                8147535                  1558340
+#> 25981 2018               19466               31208591                  1827478
+#> 30378 2017               19534               76475449                  1613798
+#> 34909 2016               19381               70067430                  1743769
+#> 39532 2015               18817               75761674                  2998584
+#> 44328 2014               18660               98950888                  3791910
+```
+
+To see what categories are available, we can look at the
+`categories_and_fields` dataset.

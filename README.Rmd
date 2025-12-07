@@ -22,7 +22,7 @@ In an academic institution, many people participate in decision-making: the gove
 
 Note I am doing this as a hobby on my own time -- nothing here reflects the views or work for any past, current, or future employer, nor of any organization. I'm just trying to save colleagues work when a new question arises.
 
-Some caveats: this uses federal data and thus reflects the federal government's views on demographic categories. The data are mostly analyzed with R scripts at <https://github.com/bomeara/collegetables_source> with some minor tweaking in this package -- I've tried to be careful with all the coding, but there could be errors, especially comparing across years. For much of the original data, go to <https://nces.ed.gov/ipeds/> and <https://collegescorecard.ed.gov/data/>. For comparisons to a focal school, I use the schools that focal school chooses as comparisons and the schools NCES uses as comparisons. **If you see any issues, please add them to <https://github.com/bomeara/sharedgovernance/issues> or, even better, fix them and use a pull request.** 
+Some caveats: this uses federal data and thus reflects the federal government's views on demographic categories. The data are mostly analyzed with R scripts at <https://github.com/bomeara/collegetables_source> with some minor tweaking in this package -- I've tried to be careful with all the coding, but there could be errors, especially comparing across years (category names can change, for example). For much of the original data, go to <https://nces.ed.gov/ipeds/> and <https://collegescorecard.ed.gov/data/>. For comparisons to a focal school, I use the schools that focal school chooses as comparisons and the schools NCES uses as comparisons. **If you see any issues, please add them to <https://github.com/bomeara/sharedgovernance/issues> or, even better, fix them and use a pull request.** 
 
 ## Installation
 
@@ -35,7 +35,18 @@ pak::pak("bomeara/sharedgovernance")
 
 Note that some of the functions may take some time to run -- it can be doing operations across hundreds of thousands of rows (all majors by all degrees by all years by all institutions makes for a lot of data).
 
-## Example
+## Overview of functions
+
+The main workhorse functions are:
+
+* `sg_find_college(college_name, verbose=TRUE)`: finds the institution ID number for a college given its name (or part of its name). Returns the UNITID number used in federal data.
+* `sg_compare_field_salaries(institution_id, focal_only=FALSE)`: returns a data.frame with average salaries by field and degree for the focal institution and its comparison institutions.
+* `sg_return_graduates(institution_id, focal_only=FALSE)`: returns a data.frame with number of degrees awarded by field, degree, year, and institution for the focal institution and its comparison institutions.
+* `sg_return_college_summary(institution_id, categories=c("Basic"), focal_only=FALSE)`: returns a data.frame with summary data from the comparison table for the focal institution and its comparisons. Categories can be found in the `categories_and_fields` dataset: see `table(categories_and_fields$Category)` for an overview.
+
+You can also open the [collegetables.info](https://collegetables.info) site for a given institution with `sg_open_collegetables(institution_id)`.	
+
+## Examples
 
 Imagine we wanted to look into U. of Nebraska, Lincoln. First we have to find its ID number in the federal data. We find names that are closest to it (in this case, the punctuation used is slightly different, but it still finds it). Make sure to use the full name: "University of Nebraska, Lincoln" rather than ("U Nebraska Lincoln" or "UNL"). By default it prints out the top ten matches.
 
@@ -72,4 +83,12 @@ g <- ggplot(bio_degrees, aes(x=`Year`, y=`Grand total`, color=`First or Second M
 	   x="IPEDS Year")
 print(g)
 ```
-	   
+
+If we want basic info on this college, we can also get a summary table. 
+
+```{r}
+summary_data <- sg_return_college_summary(id, categories=c("Basic", "Institution_Finances", "Enrollment", "Library"), focal_only=TRUE)
+print(summary_data[, c("Year", "Undergrad full time", "Revenue minus expenses", "Number of physical books")])
+```
+
+To see what categories are available, we can look at the `categories_and_fields` dataset.

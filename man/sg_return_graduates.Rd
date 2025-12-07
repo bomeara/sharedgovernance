@@ -4,10 +4,12 @@
 \alias{sg_return_graduates}
 \title{Gets the number of graduates over time for the focal institution and comparisons}
 \usage{
-sg_return_graduates(institution_id)
+sg_return_graduates(institution_id, focal_only = FALSE)
 }
 \arguments{
 \item{institution_id}{The UNITID for the institution}
+
+\item{focal_only}{If TRUE, only returns data for the focal institution. Default is FALSE.}
 }
 \value{
 A data.frame of graduates per degree and field per college per year.

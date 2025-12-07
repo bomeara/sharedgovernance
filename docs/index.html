@@ -62,7 +62,7 @@
 <!-- badges: end -->
 <p>In an academic institution, many people participate in decision-making: the governing board, administrators, faculty, staff, students, and others. See <a href="https://www.aaup.org/issues-higher-education/shared-governance/faqs-shared-governance" class="external-link">AAUP’s FAQ</a> for more information. Good decisions come from informed people, and yet sometimes information is not available to everyone involved or is heavily curated before release. This package aggregates information from the federal IPEDS databases, College Scorecard, and other sources, generally as organized by the <a href="https://collegetables.info" class="external-link">collegetables.info</a> site (which I also run), and organizes it in ways that lets community members all have free access to it. A common use case will be when there are discussions on the need to close departments. Faculty arguments often focus on qualitative factors, which can be powerful (“what does it mean for how much we value STEM if one cannot get a PhD in math anywhere in the state?”) but having quantitative arguments can also help. Alternatively, a broader look at the data could argue that some closures do make sense.</p>
 <p>Note I am doing this as a hobby on my own time – nothing here reflects the views or work for any past, current, or future employer, nor of any organization. I’m just trying to save colleagues work when a new question arises.</p>
-<p>Some caveats: this uses federal data and thus reflects the federal government’s views on demographic categories. The data are mostly analyzed with R scripts at <a href="https://github.com/bomeara/collegetables_source" class="external-link uri">https://github.com/bomeara/collegetables_source</a> with some minor tweaking in this package – I’ve tried to be careful with all the coding, but there could be errors, especially comparing across years. For much of the original data, go to <a href="https://nces.ed.gov/ipeds/" class="external-link uri">https://nces.ed.gov/ipeds/</a> and <a href="https://collegescorecard.ed.gov/data/" class="external-link uri">https://collegescorecard.ed.gov/data/</a>. For comparisons to a focal school, I use the schools that focal school chooses as comparisons and the schools NCES uses as comparisons. <strong>If you see any issues, please add them to <a href="https://github.com/bomeara/sharedgovernance/issues" class="external-link uri">https://github.com/bomeara/sharedgovernance/issues</a> or, even better, fix them and use a pull request.</strong></p>
+<p>Some caveats: this uses federal data and thus reflects the federal government’s views on demographic categories. The data are mostly analyzed with R scripts at <a href="https://github.com/bomeara/collegetables_source" class="external-link uri">https://github.com/bomeara/collegetables_source</a> with some minor tweaking in this package – I’ve tried to be careful with all the coding, but there could be errors, especially comparing across years (category names can change, for example). For much of the original data, go to <a href="https://nces.ed.gov/ipeds/" class="external-link uri">https://nces.ed.gov/ipeds/</a> and <a href="https://collegescorecard.ed.gov/data/" class="external-link uri">https://collegescorecard.ed.gov/data/</a>. For comparisons to a focal school, I use the schools that focal school chooses as comparisons and the schools NCES uses as comparisons. <strong>If you see any issues, please add them to <a href="https://github.com/bomeara/sharedgovernance/issues" class="external-link uri">https://github.com/bomeara/sharedgovernance/issues</a> or, even better, fix them and use a pull request.</strong></p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -73,7 +73,23 @@
 <p>Note that some of the functions may take some time to run – it can be doing operations across hundreds of thousands of rows (all majors by all degrees by all years by all institutions makes for a lot of data).</p>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="overview-of-functions">Overview of functions<a class="anchor" aria-label="anchor" href="#overview-of-functions"></a>
+</h2>
+<p>The main workhorse functions are:</p>
+<ul>
+<li>
+<code>sg_find_college(college_name, verbose=TRUE)</code>: finds the institution ID number for a college given its name (or part of its name). Returns the UNITID number used in federal data.</li>
+<li>
+<code>sg_compare_field_salaries(institution_id, focal_only=FALSE)</code>: returns a data.frame with average salaries by field and degree for the focal institution and its comparison institutions.</li>
+<li>
+<code>sg_return_graduates(institution_id, focal_only=FALSE)</code>: returns a data.frame with number of degrees awarded by field, degree, year, and institution for the focal institution and its comparison institutions.</li>
+<li>
+<code>sg_return_college_summary(institution_id, categories=c("Basic"), focal_only=FALSE)</code>: returns a data.frame with summary data from the comparison table for the focal institution and its comparisons. Categories can be found in the <code>categories_and_fields</code> dataset: see <code>table(categories_and_fields$Category)</code> for an overview.</li>
+</ul>
+<p>You can also open the <a href="https://collegetables.info" class="external-link">collegetables.info</a> site for a given institution with <code>sg_open_collegetables(institution_id)</code>.</p>
+</div>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <p>Imagine we wanted to look into U. of Nebraska, Lincoln. First we have to find its ID number in the federal data. We find names that are closest to it (in this case, the punctuation used is slightly different, but it still finds it). Make sure to use the full name: “University of Nebraska, Lincoln” rather than (“U Nebraska Lincoln” or “UNL”). By default it prints out the top ten matches.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -229,6 +245,23 @@
 <span>       x<span class="op">=</span><span class="st">"IPEDS Year"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+<p>If we want basic info on this college, we can also get a summary table.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">summary_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sg_return_college_summary.html">sg_return_college_summary</a></span><span class="op">(</span><span class="va">id</span>, categories<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Basic"</span>, <span class="st">"Institution_Finances"</span>, <span class="st">"Enrollment"</span>, <span class="st">"Library"</span><span class="op">)</span>, focal_only<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">summary_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Year"</span>, <span class="st">"Undergrad full time"</span>, <span class="st">"Revenue minus expenses"</span>, <span class="st">"Number of physical books"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       Year Undergrad full time Revenue minus expenses Number of physical books</span></span>
+<span><span class="co">#&gt; 1507  2024                &lt;NA&gt;                     NA                     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5489  2023               18449              118853325                  1425365</span></span>
+<span><span class="co">#&gt; 9529  2022               18175              101907312                  1421525</span></span>
+<span><span class="co">#&gt; 13611 2021               18437              137521518                  1757277</span></span>
+<span><span class="co">#&gt; 17673 2020               18949              -77948359                  1542633</span></span>
+<span><span class="co">#&gt; 21781 2019               19132                8147535                  1558340</span></span>
+<span><span class="co">#&gt; 25981 2018               19466               31208591                  1827478</span></span>
+<span><span class="co">#&gt; 30378 2017               19534               76475449                  1613798</span></span>
+<span><span class="co">#&gt; 34909 2016               19381               70067430                  1743769</span></span>
+<span><span class="co">#&gt; 39532 2015               18817               75761674                  2998584</span></span>
+<span><span class="co">#&gt; 44328 2014               18660               98950888                  3791910</span></span></code></pre></div>
+<p>To see what categories are available, we can look at the <code>categories_and_fields</code> dataset.</p>
 </div>
 </div>
   </div>
