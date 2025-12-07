@@ -110,13 +110,13 @@ print(head(grad_salaries))
 #> 101734               59052               74776                  NA
 #> 101737               24427               41932                  NA
 #> 101740               46289               56741                  NA
-#>        Earnings.1.year.women Earnings.5.year.men Earnings.5.year.women
-#> 101728                    NA                  NA                    NA
-#> 101729                    NA                  NA                    NA
-#> 101731                 46235               65132                 55662
-#> 101734                    NA                  NA                    NA
-#> 101737                    NA                  NA                    NA
-#> 101740                    NA                  NA                    NA
+#>        Earnings.1.year.women Earnings.5.year.men Earnings.5.year.women focal
+#> 101728                    NA                  NA                    NA  TRUE
+#> 101729                    NA                  NA                    NA  TRUE
+#> 101731                 46235               65132                 55662  TRUE
+#> 101734                    NA                  NA                    NA  TRUE
+#> 101737                    NA                  NA                    NA  TRUE
+#> 101740                    NA                  NA                    NA  TRUE
 ```
 
 We can also look at number of degrees awarded over time.
@@ -227,13 +227,13 @@ library(dplyr)
 #> 
 #>     intersect, setdiff, setequal, union
 bio_degrees <- completions |> dplyr::filter(Classification=="Biology/Biological Sciences, General", Degree=="Bachelors")
-g <- ggplot(bio_degrees, aes(x=`IPEDS Year`, y=`Grand total`, color=Institution)) +
+g <- ggplot(bio_degrees, aes(x=`IPEDS Year`, y=`Grand total`, color=focal, group=Institution)) +
   geom_line() +
   geom_point() +
   labs(title="Biology/Biological Sciences, General Bachelors' Degrees Awarded Over Time",
        y="Number of Degrees Awarded",
        x="IPEDS Year")
-       print(g)
+print(g)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />

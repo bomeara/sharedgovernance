@@ -179,6 +179,12 @@ sg_compare_field_salaries <- function(institution_id) {
 
 	final_score <- rbind(focal_score, comparison_score)
 	final_score <- final_score[, -ncol(final_score)]
+	
+	final_score$focal <- ifelse(
+		final_score$UNITID == institution_id,
+		TRUE,
+		FALSE
+	)
 
 	return(final_score)
 }
@@ -220,6 +226,12 @@ sg_return_graduates <- function(institution_id) {
 		completions_program_filtered[, col_index] <-
 			as.numeric(completions_program_filtered[, col_index])
 	}
+	
+	completions_program_filtered$focal <- ifelse(
+		completions_program_filtered$UNITID == institution_id,
+		TRUE,
+		FALSE
+	)
 
 	focal_completions <- subset(
 		completions_program_filtered,
